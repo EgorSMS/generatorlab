@@ -1,79 +1,133 @@
+#![feature(path_try_exists)]
+use std::cell::Cell;
+use std::{fs, cell};
+
 // use rand::rand;
 use std::cmp::Ordering;
+use std::fs::OpenOptions;
 use std::io;
+use std::io::BufReader;
 use std::os;
+use std::path::Path;
 use std::time::Duration;
 
-
-use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
 
 fn main() {
-    //TODO
-    
+    mazeFile(1, 10);
 }
 
+fn mazeFile(width: u32, height: u32) {
+    let mut path = Path::new("D:\\Users\\Egor\\Rust\\projects\\generatorlab\\path.txt");
 
-
-fn MazeFile(width: i32, height: i32){
-    let mut file = File::create("labirint.txt")
-    .expect("Не удалось создать файл");
-
-    
-    let x = 0;
-    let y = 0;
-
-    let maze = genMaze(width, height);
-
-    for y in y..height
+    if path
+        .try_exists()
+        .expect("Can't check existence of file does_not_exist.txt")
     {
-        let northWalls = "";
-        let sideWalls = "";
-        let southWalls = "";
+        fs::remove_file(path)
+            .expect("could not remove file");
+        println!("file is removed");
+    }
 
+    let mut file = File::create("path.txt") // Создание файла
+        .expect("Не удалось создать файл");
 
-        for x in x..width
-        {
-            if 
-            let walls = Walls {}
-            if Walls.north {
-                northWalls += "+--+"
+    // let maze = genMaze(width, height);
+
+    for y in 0..height {
+        let mut northWalls = "";
+        let mut sideWalls = "";
+        let mut southWalls = "";
+        
+
+        for x in 0..width {
+            let walls = Walls {
+                north: true,
+                east: true, 
+                south: true,
+                west: true,
+            };
+
+            if walls.north {
+                northWalls = "+--+"
             } else {
-                northWalls += "+  +"
+                northWalls = "+  +"
             }
 
-            if(Walls)
+            if walls.west {
+                sideWalls = "|"
+            } else {
+                sideWalls = " "
+            }
 
+            if walls.east {
+                sideWalls = "  |"
+            } else {
+                sideWalls = "   "
+            }
+
+            if walls.south {
+                southWalls = "+--+"
+            } else {
+                southWalls = "+  +"
+            }
+        }
+        
+        file.write((northWalls.to_string() + "\n").as_bytes()).expect("esfs");
+        file.write((sideWalls.to_string() + "\n").as_bytes()).expect("esfs");
+        file.write((southWalls.to_string() + "\n").as_bytes()).expect("esfs");
+        
+    }
+}
+
+fn genMaze(w: u32, h: u32) -> Cell {
+    let  maze = Cell { visited: val, w: val } ;
+    for i in maze  {
+        let mut north = Walls;
+        let mut east = Walls;
+        let mut south = true;
+        let mut west = true;
+        let mut col = Cell { visited}
+        for j in col {
+            col[j]
         }
         
     }
-
+    // let maze = Cell {visited: , w: };
+    // return maze;
+    todo!()
 }
 
-fn genMaze(w:i32, h:i32) -> Cell {
-    let mut array = [[0u8; 4]; 6];
-    let maze = Cell {visited: , w: };
-    return maze;
-}
+// fn unvisitedNeighbors(){
+//     let mut width = 
+// }
 
 struct Coord {
-    x : i32,
-    y : i32
+    x: i32,
+    y: i32,
 }
+#[derive(Default)]
 struct Walls {
-    north : bool,
-    east : bool,
-    south : bool,
-    west : bool
+    north: bool,
+    east: bool,
+    south: bool,
+    west: bool,
 }
 struct Cell {
-    visited : bool,
-    w : Walls
+    visited: bool,
+    w: Walls,
 }
 
-fn unvisitedCellsIn(maze [][]cell) -> Cell {
-    let mut array = [[0u8; 4]; 6];
-    let maze = Cell {visited: , w: };
-    return maze;
+fn unvisitedCellsIn(Cell { visited, w }: Cell) -> bool { //
+    for col in 0..maze{
+        for j in 0..10  {
+            if !visited{
+                return true;
+            }
+        }
+    }
+    // let mut array = [[0u8; 4]; 6];
+    // let maze = Cell {visited: , w: };
+    return false;
 }
