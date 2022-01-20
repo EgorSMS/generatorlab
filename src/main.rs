@@ -82,18 +82,25 @@ fn mazeFile(width: u32, height: u32) {
 }
 
 fn genMaze(w: u32, h: u32) -> Cell {
-    let  maze = Cell { visited: val, w: val } ;
+    let mut maze = (Cell { visited, w }:Cell, w) ;
     for i in maze  {
-        let mut north = Walls;
-        let mut east = Walls;
-        let mut south = true;
-        let mut west = true;
         let mut col = Cell { visited}
         for j in col {
-            col[j]
+            let walls = Walls {
+                north: true,
+                east: true, 
+                south: true,
+                west: true,
+            };
+            col[j] = walls.north;
+            col[j] = walls.east;
+            col[j] = walls.south;
+            col[j] = walls.west;
         }
-        
+        maze[i] = col;
     }
+
+    let mut backtrack = Coord {x: , y: };
     // let maze = Cell {visited: , w: };
     // return maze;
     todo!()
@@ -119,8 +126,8 @@ struct Cell {
     w: Walls,
 }
 
-fn unvisitedCellsIn(Cell { visited, w }: Cell) -> bool { //
-    for col in 0..maze{
+fn unvisitedCellsIn(Cell { visited, w }: Cell, maze) -> bool { //
+    for col in maze{
         for j in 0..10  {
             if !visited{
                 return true;
